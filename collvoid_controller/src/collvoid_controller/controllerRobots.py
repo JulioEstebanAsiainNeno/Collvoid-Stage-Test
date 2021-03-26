@@ -17,7 +17,7 @@ import tf
 
 THRESHOLD = 0.22
 
-def dist(a, b):
+def dist(a, b): #Beeline distance from one agent to another
     return math.sqrt(math.pow(a.position.x - b.position.x, 2) + math.pow(a.position.y - b.position.y, 2))
 
 
@@ -42,8 +42,7 @@ class ControllerRobots():
         self.sub_ground_truth = rospy.Subscriber("base_pose_ground_truth", Odometry, self.cb_ground_truth)
        
         self.pub_init_guess = rospy.Publisher("initialpose", PoseWithCovarianceStamped)
-        self.pub_commands_robot = rospy.Publisher("/commands_robot", String)
-                
+        self.pub_commands_robot = rospy.Publisher("/commands_robot", String)     
         
         self.hostname = rospy.get_namespace()
         self.noise_std = rospy.get_param("/noise_std", 0.0)
@@ -55,11 +54,10 @@ class ControllerRobots():
             self.goals = rospy.get_param("%sgoals"%self.hostname,[])
         if len(self.goals)>0:
             rospy.loginfo("goals: %s"%str(self.goals))
-            self.cur_goal = 0
+            self.cur_goal = 0 #current goal
             self.num_goals = len(self.goals["x"])
             self.cur_goal_msg = self.return_cur_goal()
         rospy.loginfo("Name: %s",self.hostname)
-
 
 
     def return_cur_goal(self):
@@ -78,7 +76,7 @@ class ControllerRobots():
 
     def cb_common_positions(self,msg):
         if self.stopped or not self.circling:
-            return        #       rospy.loginfo("%s"%rospy.get_master())
+            return None       #rospy.loginfo("%s"%rospy.get_master())
         if msg.robot_id == self.hostname:
             if dist(msg.pose.pose, self.cur_goal_msg.target_pose.pose) < THRESHOLD:
                 rospy.loginfo("Reached goal, sending new goal")
@@ -97,6 +95,7 @@ class ControllerRobots():
         self.sent_goal.target_pose.header = msg.header;
         print str(self.sent_goal)
 
+
     def cb_ground_truth(self, msg):
         self.ground_truth = PoseWithCovarianceStamped()
         #print str(self.ground_truth)
@@ -113,8 +112,8 @@ class ControllerRobots():
         #self.ground_truth.pose.pose.orientation.y = q[1]
         #self.ground_truth.pose.pose.orientation.z = q[2]
         #self.ground_truth.pose.pose.orientation.w = q[3]
-        
 
+        
     def publish_init_guess(self, noise_cov, noise_std):
         if not (self.ground_truth == None):
             self.ground_truth.pose.pose.position.x += random.gauss(0, noise_std)
@@ -131,7 +130,6 @@ class ControllerRobots():
         #print msg.data
         if msg.data == "all WP change" or msg.data == "%s WP change"%self.hostname:
             self.stopped = not(self.stopped)
-       
         
         if self.stopped:
             rospy.loginfo("I am stopped %s", self.hostname)
@@ -160,6 +158,7 @@ class ControllerRobots():
 
         if msg.data == "all send delayed Goal" or msg.data == "%s send delayed Goal"%self.hostname:
             self.client.send_goal(self.sent_goal)
+  
         
 def msg_to_quaternion(msg):
     return [msg.x, msg.y, msg.z, msg.w]

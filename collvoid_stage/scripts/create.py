@@ -8,8 +8,8 @@ import commands
 def create_world_file(argv):
     numRobots = 0
     circleSize = 0
-    centerX = -2.2
-    centerY = 2
+    centerX = 0.0
+    centerY = 1.8
     omni = False
     localization = True
     simulation = True
@@ -46,8 +46,8 @@ def create_world_file(argv):
 #            omni = True
     
     direct = commands.getoutput('rospack find collvoid_stage')
-    worldFileTemp = open(direct + '/world/swarmlab_template.world','r')
-    worldFileNew = open(direct + '/world/swarmlab_created.world','w')
+    worldFileTemp = open(direct + '/world/hallway_template.world','r')
+    worldFileNew = open(direct + '/world/hallway_created.world','w')
     worldFileNew.write(worldFileTemp.read())
     direct = commands.getoutput('rospack find stage')
 
@@ -62,11 +62,12 @@ def create_world_file(argv):
     #print cols
     for x in range(numRobots):
         angle = 360.0 / numRobots
-        anglePrint = x * angle-180-45
-        angle = x * angle - 45
-        posX = circleSize*math.cos(angle/360*2*math.pi)
-        
+        anglePrint = x * angle-180-180
+        angle = x * angle - 180
+        #posX = circleSize*math.cos(angle/360*2*math.pi)
+        posX = 1 + x*8.2 #Change for more than 2 robots
         posY = circleSize*math.sin(angle/360*2*math.pi)
+        
         if (omni or useSticks):
             if(not useSticks):
                 worldFileNew.write('pr2( pose [ {0:f} {1:f} 0 {2:f} ] name "robot_{3:d}" color "{4}")\n'.format(centerX+posX,centerY+posY,anglePrint,x,cols[40 +  10 * x]))
@@ -107,12 +108,12 @@ def create_launch_file(numRobots,omni,runExperiments, bagFilename, localization,
 
     launchWrite = open(direct + '/launch/sim_created.launch','w')
     launchWrite.write("<launch>\n")
-    launchWrite.write('  <node name="map_server" pkg="map_server" type="map_server" args="$(find collvoid_stage)/world/swarmlab_map.yaml"/>\n')
+    launchWrite.write('  <node name="map_server" pkg="map_server" type="map_server" args="$(find collvoid_stage)/world/hallway_map.yaml"/>\n')
     launchWrite.write('  <rosparam command="load" file="$(find collvoid_stage)/params_created.yaml"/>\n')
     if runExperiments:
-        launchWrite.write('  <node pkg="stage_ros" type="stageros" name="stageros" args="-g $(find collvoid_stage)/world/swarmlab_created.world" respawn="false" output="screen" />\n')
+        launchWrite.write('  <node pkg="stage_ros" type="stageros" name="stageros" args="-g $(find collvoid_stage)/world/hallway_created.world" respawn="false" output="screen" />\n')
     else:
-        launchWrite.write('  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find collvoid_stage)/world/swarmlab_created.world" respawn="false" output="screen" />\n')
+        launchWrite.write('  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find collvoid_stage)/world/hallway_created.world" respawn="false" output="screen" />\n')
 
     for x in range(numRobots):
         if (localization):

@@ -301,6 +301,7 @@ namespace collvoid {
 }
 
 int main(int argc, char **argv) {
+    std::cout << "helper.cpp" << std::endl;
     ros::init(argc, argv, "Helper");
     ros::NodeHandle nh;
     tf::TransformListener tf;

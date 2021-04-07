@@ -31,11 +31,11 @@
 #include "collvoid_local_planner/Agent.h"
 #include "collvoid_local_planner/orca.h"
 #include <boost/foreach.hpp>
-
+using namespace std;
 namespace collvoid {
 
     void Agent::computeOrcaVelocity(Vector2 pref_velocity, bool convex) {
-
+        cout << "Agent.cpp: computeOrcaVelocity" << endl;
         orca_lines_.clear();
         orca_lines_.insert(orca_lines_.end(), additional_orca_lines_.begin(), additional_orca_lines_.end());
 
@@ -72,6 +72,7 @@ namespace collvoid {
     }
 
     void Agent::computeClearpathVelocity(Vector2 pref_velocity) {
+        cout << "Agent.cpp: computeClearpathVelocity" << endl;
         if (controlled_) {
             computeAgentVOs();
         }
@@ -80,6 +81,7 @@ namespace collvoid {
     }
 
     void Agent::computeSampledVelocity(Vector2 pref_velocity) {
+        cout << "Agent.cpp: computeSampledVelocity" << endl;
         if (controlled_) {
             computeAgentVOs();
         }
@@ -88,6 +90,7 @@ namespace collvoid {
 
 
     void Agent::computeAgentVOs() {
+        cout << "Agent.cpp: computeAgentVOs" << endl;
         BOOST_FOREACH (AgentPtr agent, agent_neighbors_) {
                         VO new_agent_vo;
                         //use footprint or radius to create VO
@@ -122,19 +125,23 @@ namespace collvoid {
     }
 
     void Agent::setLeftPref(double left_pref) {
+        cout << "Agent.cpp: setLeftPref" << endl;
         this->left_pref_ = left_pref;
     }
 
     void Agent::setRadius(double radius) {
+        cout << "Agent.cpp: setRadius" << endl;
         this->radius_ = radius;
     }
 
     void Agent::setTruncTime(double trunc_time) {
+        cout << "Agent.cpp: setTruncTime" << endl;
         this->trunc_time_ = trunc_time;
     }
 
 
     void Agent::setSimPeriod(double sim_period) {
+        cout << "Agent.cpp: setSimPeriod" << endl;
         sim_period_ = sim_period;
     }
 

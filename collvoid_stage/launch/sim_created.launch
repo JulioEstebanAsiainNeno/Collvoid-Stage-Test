@@ -1,7 +1,7 @@
 <launch>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find collvoid_stage)/world/swarmlab_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find collvoid_stage)/world/hallway_map.yaml"/>
   <rosparam command="load" file="$(find collvoid_stage)/params_created.yaml"/>
-  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find collvoid_stage)/world/swarmlab_created.world" respawn="false" output="screen" />
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find collvoid_stage)/world/hallway_created.world" respawn="false" output="screen" />
   <node name="fake_localization" pkg="fake_localization" ns="robot_0" type="fake_localization" respawn="false">
     <param name="~tf_prefix" value="robot_0" />
     <param name="~odom_frame_id" value="/robot_0/odom" />

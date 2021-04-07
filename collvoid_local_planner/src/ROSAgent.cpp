@@ -38,7 +38,7 @@
 #include "collvoid_local_planner/orca.h"
 #include "collvoid_local_planner/collvoid_publishers.h"
 
-
+using namespace std;
 template<typename T>
 void getParam(const ros::NodeHandle nh, const std::string &name, T *place) {
     bool found = nh.getParam(name, *place);
@@ -83,7 +83,7 @@ namespace collvoid {
                 gethostname(hostname, 1023);
                 id_ = std::string(hostname);
             }
-            ROS_INFO("Standalone My name is: %s", id_.c_str());
+            //ROS_INFO("Standalone My name is: %s", id_.c_str());
             controlled_ = false;
             ros::Duration(2.0).sleep();
             initCommon(nh);
@@ -96,7 +96,7 @@ namespace collvoid {
                 gethostname(hostname, 1023);
                 id_ = std::string(hostname);
             }
-            ROS_INFO("My name is: %s", id_.c_str());
+            //ROS_INFO("My name is: %s", id_.c_str());
             controlled_ = false;
             initCommon(private_nh);
         }
@@ -206,7 +206,7 @@ namespace collvoid {
         //laser_scan_sub_ = nh.subscribe("base_scan", 1, &ROSAgent::baseScanCallback, this);
 
 
-        ROS_INFO("New Agent as me initialized");
+        //ROS_INFO("New Agent as me initialized");
 
     }
 
@@ -519,6 +519,7 @@ namespace collvoid {
             }
         }
         dist = dist - dist_to_footprint - 0.03;
+        //cout << dist << endl;
         //if (dist < (double)max_vel_with_obstacles_){
         //  dist *= dist;
         //}
@@ -549,7 +550,7 @@ namespace collvoid {
                 dist_to_footprint = footprint_radius_;
             }
             dist = dist - dist_to_footprint - 0.03;
-
+            cout << dist << endl;
             if (dist < 0.0) {
                 Line line;
                 line.point = (dist - 0.02) * normalize(rel_position);
@@ -1338,6 +1339,7 @@ namespace collvoid {
 }
 
 int main(int argc, char **argv) {
+    std::cout << "ROSAgent.cpp" << std::endl;
     ros::init(argc, argv, "ROSAgent");
     //ros::NodeHandle nh;
     ros::NodeHandle nh("~");
@@ -1345,7 +1347,7 @@ int main(int argc, char **argv) {
     ROSAgentPtr me(new ROSAgent);
     tf::TransformListener tf;
     me->init(nh, &tf);
-    ROS_INFO("ROSAgent initialized");
+    //ROS_INFO("ROSAgent initialized");
     ros::spin();
 
 }

@@ -40,14 +40,12 @@ using namespace costmap_2d;
 PLUGINLIB_DECLARE_CLASS(collvoid_local_planner, CollvoidLocalPlanner, collvoid_local_planner::CollvoidLocalPlanner,
                         nav_core::BaseLocalPlanner)
 
-
 template<typename T>
 void getParam(const ros::NodeHandle nh, const string &name, T *place) {
     bool found = nh.getParam(name, *place);
     ROS_ASSERT_MSG (found, "Could not find parameter %s", name.c_str());
     ROS_DEBUG_STREAM_NAMED ("init", "Initialized " << name << " to " << *place);
 }
-
 
 template<class T>
 T getParamDef(const ros::NodeHandle nh, const string &name, const T &default_val) {
@@ -76,6 +74,7 @@ namespace collvoid_local_planner {
 
 
     void CollvoidLocalPlanner::initialize(std::string name, tf::TransformListener *tf, costmap_2d::Costmap2DROS *costmap_ros) {
+        std::cout << "collvoid_local_planner.cpp" << std::endl;
         if (!initialized_) {
             tf_ = tf;
             costmap_ros_ = costmap_ros;
@@ -586,7 +585,7 @@ namespace collvoid_local_planner {
         res.linear.x = target_pose.getOrigin().x() - global_pose.getOrigin().x();
         res.linear.y = target_pose.getOrigin().y() - global_pose.getOrigin().y();
         res.angular.z = angles::shortest_angular_distance(tf::getYaw(global_pose.getRotation()), atan2(res.linear.y, res.linear.x));
-
+        std::cout << global_pose.getOrigin().x();
         collvoid::Vector2 goal_dir = collvoid::Vector2(res.linear.x, res.linear.y);
         // collvoid::Vector2 goal_dir = collvoid::Vector2(goal_x,goal_y);
         if (collvoid::abs(goal_dir) > max_vel_x_) {

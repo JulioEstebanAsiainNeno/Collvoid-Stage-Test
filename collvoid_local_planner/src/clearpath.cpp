@@ -33,7 +33,7 @@
 #include <ros/ros.h>
 #include <float.h>
 #include <boost/foreach.hpp>
-
+using namespace std;
 namespace collvoid {
 
 
@@ -514,6 +514,7 @@ namespace collvoid {
 
     void addCircleLineIntersections(std::vector<VelocitySample> &samples, const Vector2 &pref_vel, double maxSpeed,
                                     bool use_truncation, const Vector2 &point, const Vector2 &dir) {
+        cout << "clearpath.cpp: addCircleLineIntersections" << endl;
 
         double discriminant = sqr(maxSpeed) - sqr(det(point,
                                                       dir)); // http://stackoverflow.com/questions/1073336/circle-line-collision-detection
@@ -543,6 +544,7 @@ namespace collvoid {
 
     void addRayVelocitySamples(std::vector<VelocitySample> &samples, const Vector2 &pref_vel, Vector2 point1,
                                Vector2 dir1, Vector2 point2, Vector2 dir2, double max_speed, int TYPE) {
+        cout << "clearpath.cpp: addRayVelocitySamples" << endl;
         double r, s;
 
         double x1, x2, x3, x4, y1, y2, y3, y4;
@@ -591,6 +593,7 @@ namespace collvoid {
                                                 double max_vel_x, double min_vel_y, double max_vel_y,
                                                 double min_vel_theta, double max_vel_theta, double heading,
                                                 Vector2 pref_vel, double sim_period, int num_samples, bool holo_robot) {
+        cout << "clearpath.cpp: createSamplesWithinMovementConstraints" << endl;
 
         if (holo_robot) {//holonomic drive
             double min_x, max_x, min_y, max_y;

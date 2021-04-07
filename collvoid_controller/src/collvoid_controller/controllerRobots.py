@@ -166,6 +166,7 @@ def msg_to_quaternion(msg):
 
 if __name__ == '__main__':
     rospy.init_node('controller_robots')
+    print "controllerRobots.py"
     controller_waypoints = ControllerRobots()
 
     r = rospy.Rate(20)

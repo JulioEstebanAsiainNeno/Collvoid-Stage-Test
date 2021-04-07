@@ -63,7 +63,7 @@
  */
 
 #include "collvoid_local_planner/orca.h"
-
+using namespace std;
 namespace collvoid {
 
 
@@ -171,6 +171,7 @@ namespace collvoid {
     void addAccelerationConstraintsXY(double max_vel_x, double acc_lim_x, double max_vel_y, double acc_lim_y,
                                       Vector2 cur_vel, double heading, double sim_period, bool holo_robot,
                                       std::vector<Line> &additional_orca_lines) {
+        //cout << "orca.cpp: addAccelerationConstraintsXY" << endl;
         double max_lim_x, max_lim_y, min_lim_x, min_lim_y;
         Line line_x_back, line_x_front, line_y_left, line_y_right;
 
@@ -233,6 +234,7 @@ namespace collvoid {
 
     void addMovementConstraintsDiffSimple(double max_track_speed, double heading,
                                           std::vector<Line> &additional_orca_lines) {
+        //cout << "orca.cpp: addMovementConstraintsDiffSimple" << endl;
         Line maxVel1;
         Line maxVel2;
 
@@ -261,6 +263,7 @@ namespace collvoid {
 
     void addMovementConstraintsDiff(double error, double T, double max_vel_x, double max_vel_th, double heading,
                                     double v_max_ang, std::vector<Line> &additional_orca_lines) {
+        //cout << "orca.cpp: addMovementConstraintsDiff" << endl;
 
         // double steps2 = 180;
         // std::cout << error<< std::endl;
@@ -350,6 +353,7 @@ namespace collvoid {
 
     bool linearProgram1(const std::vector<Line> &lines, size_t lineNo, float radius, const Vector2 &optVelocity,
                         bool dirOpt, Vector2 &result) {
+        //cout << "orca.cpp: linearProgram1" << endl;
         const float dotProduct = lines[lineNo].point * lines[lineNo].dir;
         const float discriminant = sqr(dotProduct) + sqr(radius) - absSqr(lines[lineNo].point);
 
@@ -417,6 +421,7 @@ namespace collvoid {
 
     size_t linearProgram2(const std::vector<Line> &lines, float radius, const Vector2 &optVelocity, bool dirOpt,
                           Vector2 &result) {
+        //cout << "orca.cpp: linearProgram2" << endl;
         if (dirOpt) {
             /*
              * Optimize direction. Note that the optimization velocity is of unit

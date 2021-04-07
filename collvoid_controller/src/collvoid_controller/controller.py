@@ -103,7 +103,7 @@ class controller(wx.Frame):
         if not self.initialized:
             return
         if self.robotList.count(msg.robot_id) == 0:
-            rospy.loginfo("robot added")
+            #rospy.loginfo("robot added")
             self.robotList.append(msg.robot_id)
             self.choiceBox.Append(msg.robot_id)
 
@@ -157,6 +157,7 @@ class controller(wx.Frame):
     
 if __name__ == '__main__':
     rospy.init_node('controller')
+    print "controller.py"
     app = wx.App()
     frame = controller(None,wx.ID_ANY,'Controller')
 

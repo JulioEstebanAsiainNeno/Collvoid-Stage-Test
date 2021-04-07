@@ -30,7 +30,7 @@
 
 
 #include "collvoid_local_planner/collvoid_publishers.h"
-
+using namespace std;
 namespace collvoid {
 
     void publishHoloSpeed(Vector2 pos, Vector2 vel, std::string base_frame, std::string name_space,
@@ -62,6 +62,7 @@ namespace collvoid {
 
     void publishVOs(Vector2 &pos, const std::vector<VO> &truncated_vos, bool use_truncation, std::string base_frame,
                     std::string name_space, ros::Publisher vo_pub) {
+        //cout << "collvoid_publishers.cpp: publishVOs" << endl;
         visualization_msgs::Marker line_list;
         line_list.header.frame_id = base_frame;
         line_list.header.stamp = ros::Time::now();
@@ -135,6 +136,7 @@ namespace collvoid {
 
     void publishPoints(Vector2 &pos, const std::vector<VelocitySample> &points, std::string base_frame,
                        std::string name_space, ros::Publisher samples_pub) {
+        //cout << "collvoid_publishers.cpp: publishPoints" << endl;
         visualization_msgs::MarkerArray point_array;
         // point_array.markers.resize(MAX_POINTS);
         // point_array.markers.clear();
@@ -187,6 +189,7 @@ namespace collvoid {
 
     void publishOrcaLines(const std::vector<Line> &orca_lines, Vector2 &position, std::string base_frame,
                           std::string name_space, ros::Publisher line_pub) {
+        //cout << "collvoid_publishers.cpp: publishOrcaLines" << endl;
         visualization_msgs::Marker line_list;
         line_list.header.frame_id = base_frame;
         line_list.header.stamp = ros::Time::now();
@@ -215,6 +218,7 @@ namespace collvoid {
 
     void publishObstacleLines(const std::vector<Obstacle> &obstacles_lines, std::string base_frame,
                               std::string name_space, ros::Publisher line_pub) {
+        //cout << "collvoid_publishers.cpp: publishObstacleLines" << endl;
         visualization_msgs::Marker line_list;
         line_list.header.frame_id = base_frame;
         line_list.header.stamp = ros::Time::now();
@@ -246,6 +250,7 @@ namespace collvoid {
 
 
     void publishMePosition(ROSAgent *me, std::string base_frame, std::string name_space, ros::Publisher me_pub) {
+        //cout << "collvoid_publishers.cpp: publishMePosition" << endl;
         visualization_msgs::MarkerArray sphere_list;
         sphere_list.markers.clear();
         fillMarkerWithROSAgent(sphere_list, me, base_frame, name_space);
@@ -255,6 +260,7 @@ namespace collvoid {
 
     void publishNeighborPositions(std::vector<AgentPtr> &neighbors, std::string base_frame, std::string name_space,
                                   ros::Publisher neighbors_pub) {
+        //cout << "collvoid_publishers.cpp: publishNeighborPositions" << endl;
         visualization_msgs::MarkerArray sphere_list;
         sphere_list.markers.clear();
 
@@ -268,6 +274,7 @@ namespace collvoid {
 
     void fillMarkerWithROSAgent(visualization_msgs::MarkerArray &marker, ROSAgent *agent, std::string base_frame,
                                 std::string name_space) {
+        //cout << "collvoid_publishers.cpp: fillMarkerWithROSAgent" << endl;
         int id = (int) marker.markers.size();
         marker.markers.resize(marker.markers.size() + 2);
         ros::Time timestamp = ros::Time::now();
